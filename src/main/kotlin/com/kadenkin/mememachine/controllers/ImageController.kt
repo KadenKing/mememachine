@@ -1,7 +1,7 @@
 package com.kadenkin.mememachine.controllers;
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.kadenkin.mememachine.repositories.AnalyzedImagesRepository
+import com.kadenkin.mememachine.repositories.elasticsearch.AnalyzedImagesRepository
 import com.kadenkin.mememachine.services.ImageService
 import com.kadenkin.mememachine.services.reddit.RedditService
 import org.elasticsearch.index.query.QueryBuilders
@@ -25,6 +25,12 @@ class ImageController @Autowired constructor(val imageService: ImageService,
                                              val redditService: RedditService,
                                              val analyzedImagesRepository: AnalyzedImagesRepository,
                                              val testDocumentRepository: TestDocumentRepository) {
+
+    @PostMapping("/start")
+    fun start(): String {
+        imageService.readTextFromRedditImages()
+        return "hey"
+    }
 
     @GetMapping
     fun search(@RequestParam search: String): ResponseEntity<Any> {

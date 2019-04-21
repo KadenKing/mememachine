@@ -1,4 +1,4 @@
-package com.kadenkin.mememachine.repositories
+package com.kadenkin.mememachine.repositories.elasticsearch
 
 import com.kadenkin.mememachine.services.AnalyzedImage
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository

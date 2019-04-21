@@ -30,6 +30,7 @@ class ImageReader
 
         }
         log.info("Finished reading image")
+        api.Clear()
 
         return ans ?: "could not find text"
     }

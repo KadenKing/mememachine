@@ -9,17 +9,14 @@ import java.util.*
 
 @Component
 class RedditApi {
-    @Value("\${reddit.url}")
-    val redditUrl: String? = null
-
-    fun getJsonString(): String {
+    fun getJsonString(redditUrl: String): String {
         val restTemplate = RestTemplate()
         val headers = HttpHeaders()
         headers.accept = Arrays.asList(MediaType.APPLICATION_JSON)
         headers.set("User-Agent", """NING/1.0""")
         val entity = HttpEntity<String>(headers)
 
-        val ans: ResponseEntity<String> = restTemplate.exchange(redditUrl.toString(),
+        val ans: ResponseEntity<String> = restTemplate.exchange(redditUrl,
                 HttpMethod.GET,
                 entity)
 

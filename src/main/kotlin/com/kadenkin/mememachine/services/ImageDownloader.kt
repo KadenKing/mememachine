@@ -23,8 +23,13 @@ class ImageDownloader {
                 }
 
         log.info("Downloading image from $url")
-        urlConnection.getInputStream()
-                .use { input -> Files.copy(input, downloadedImageDestination, StandardCopyOption.REPLACE_EXISTING) }
+        try {
+            urlConnection.getInputStream()
+                    .use { input -> Files.copy(input, downloadedImageDestination, StandardCopyOption.REPLACE_EXISTING) }
+        } catch (e: Exception) {
+            log.error("could not download from $url")
+            return null
+        }
         log.info("finished downloading image")
 
         val tempFile = downloadedImageDestination.toFile()
