@@ -8,6 +8,9 @@ import org.bytedeco.javacpp.lept
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.bytedeco.javacpp.BytePointer
+import org.bytedeco.javacpp.lept.pixDestroy
+
 
 @Component
 class ImageReader
@@ -20,17 +23,21 @@ class ImageReader
 
         api.SetImage(image)
 
-        var ans: String? = null
-        runBlocking {
-            val deferred =  async { api.GetUTF8Text().string }
-            try {
-                ans = withTimeout(5000) { deferred.await() } ?: "timed out"
-            } catch (e: Exception) {
-            }
+        lateinit var outText: BytePointer
 
+        runBlocking {
+            try {
+                withTimeout(5000) { outText = api.GetUTF8Text() }
+            } catch (e: Exception) {
+                return@runBlocking "could not find text"
+            }
         }
+
         log.info("Finished reading image")
-        api.Clear()
+        val ans = outText.string
+        outText.deallocate()
+        api.End()
+        pixDestroy(image)
 
         return ans ?: "could not find text"
     }
