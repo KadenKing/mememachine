@@ -29,6 +29,8 @@ class ImageReader
             try {
                 withTimeout(5000) { outText = api.GetUTF8Text() }
             } catch (e: Exception) {
+                api.End()
+                pixDestroy(image)
                 return@runBlocking "could not find text"
             }
         }
