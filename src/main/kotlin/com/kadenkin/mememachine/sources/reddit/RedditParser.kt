@@ -1,35 +1,35 @@
-package com.kadenkin.mememachine.services.reddit
+package com.kadenkin.mememachine.sources.reddit
 
 import com.google.gson.JsonParser
+import com.kadenkin.mememachine.sources.SourcePost
 import org.springframework.stereotype.Component
 
-data class SourceInformation(val sourceName: String, val title: String, val imageUrl: String)
 
 @Component
 class RedditParser {
 
-    fun getRedditPosts(jsonString: String): List<SourceInformation> {
+    fun getRedditPosts(jsonString: String): List<SourcePost> {
         val jsonParser = JsonParser()
 
         val children = jsonParser.parse(jsonString).asJsonObject
                 .getAsJsonObject("data")
                 .getAsJsonArray("children")
 
-        val sourceInformations: List<SourceInformation> = children
+        val sourceSources: List<SourcePost> = children
                 .mapNotNull{
                     it.asJsonObject
                             .getAsJsonObject("data")
                             .takeIf {
                                 it.has("post_hint") && it.getAsJsonPrimitive("post_hint").asString == "image"
                             }?.let{
-                                SourceInformation(
+                                SourcePost(
                                         sourceName = "Reddit",
                                         title = it.getAsJsonPrimitive("title").asString,
-                                        imageUrl = it.getAsJsonPrimitive("url").asString
+                                        imgUrl = it.getAsJsonPrimitive("url").asString
                                 )
                             }
                 }
 
-        return sourceInformations
+        return sourceSources
     }
 }

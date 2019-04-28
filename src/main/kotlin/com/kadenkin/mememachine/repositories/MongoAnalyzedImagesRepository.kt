@@ -1,8 +1,7 @@
 package com.kadenkin.mememachine.repositories
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.kadenkin.mememachine.services.AnalyzedImage
-import org.springframework.data.annotation.Id
+import com.kadenkin.mememachine.sources.AnalyzedImage
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 import java.util.*

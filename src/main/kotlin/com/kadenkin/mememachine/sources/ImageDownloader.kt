@@ -1,4 +1,4 @@
-package com.kadenkin.mememachine.services
+package com.kadenkin.mememachine.sources
 
 import org.bytedeco.javacpp.lept
 import org.bytedeco.javacpp.lept.pixRead

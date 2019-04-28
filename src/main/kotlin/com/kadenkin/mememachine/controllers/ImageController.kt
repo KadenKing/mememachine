@@ -3,7 +3,6 @@ package com.kadenkin.mememachine.controllers;
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.kadenkin.mememachine.repositories.elasticsearch.AnalyzedImagesRepository
 import com.kadenkin.mememachine.services.ImageService
-import com.kadenkin.mememachine.services.reddit.RedditService
 import org.elasticsearch.index.query.QueryBuilders
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.elasticsearch.annotations.Document
@@ -22,13 +21,12 @@ data class TestDocument(@JsonProperty("id") var id: String?, @JsonProperty("test
 @RestController
 @RequestMapping("api/images")
 class ImageController @Autowired constructor(val imageService: ImageService,
-                                             val redditService: RedditService,
                                              val analyzedImagesRepository: AnalyzedImagesRepository,
                                              val testDocumentRepository: TestDocumentRepository) {
 
     @PostMapping("/start")
     fun start(): String {
-        imageService.readTextFromRedditImages()
+        imageService.saveFromSources()
         return "hey"
     }
 

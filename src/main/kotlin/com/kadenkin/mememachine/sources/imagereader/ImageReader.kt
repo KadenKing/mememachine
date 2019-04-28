@@ -1,7 +1,6 @@
-package com.kadenkin.mememachine.services.imagereader
+package com.kadenkin.mememachine.sources.imagereader
 
 import com.kadenkin.mememachine.suppliers.TessApiFactory
-import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import org.bytedeco.javacpp.lept
@@ -17,7 +16,7 @@ class ImageReader
 @Autowired constructor(private val tessApiFactory: TessApiFactory) {
     private val log = LoggerFactory.getLogger(ImageReader::class.java)
 
-    fun getText(image: lept.PIX): String {
+    fun readTextAndFreeImage(image: lept.PIX): String {
         log.info("Started reading image")
         val api = tessApiFactory.getTessApi()
 
